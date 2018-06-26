@@ -69,7 +69,7 @@ double distancia(Flor ind1, Flor ind2)
 }
 
 // essa função classifica uma nova amostra
-string classificarAmostra(vector<Flor>& individuos, Flor novo_exemplo, int K)
+string classifica(vector<Flor>& flores, Flor novo_exemplo, int K)
 {
 	// se o K for par decrementa
 	//if(K % 2 == 0)
@@ -80,13 +80,12 @@ string classificarAmostra(vector<Flor>& individuos, Flor novo_exemplo, int K)
 	//}
 	
 	if(K % 2 == 0 || K < 0){
-		cout << "K deve ser um valor ímpar positivo!";
-		return NULL;
+		return "K deve ser um valor ímpar positivo!";
 	}
 		
 
 	// obtém o tamanho do vetor
-	int tam_vet = individuos.size();
+	int vetSize = flores.size();
 
 	/*
 		set de pairs da distância de cada indivíduo
@@ -94,23 +93,23 @@ string classificarAmostra(vector<Flor>& individuos, Flor novo_exemplo, int K)
 		cada pair é composto pela distância e o índice
 		do indivíduo no vetor
 	*/
-	set<pair<double, int> > dist_individuos;
+	set<pair<double, int> > dist_flores;
 
 	/*
 		calcula-se a distância euclidiana do novo exemplo
 		para cada amostra do conjunto de treinamento
 	*/
-	for(int i = 0; i < tam_vet; i++)
+	for(int i = 0; i < vetSize; i++)
 	{
-		double dist = distancia(individuos[i], novo_exemplo);
-		dist_individuos.insert(make_pair(dist, i));
+		double dist = distancia(flores[i], novo_exemplo);
+		dist_flores.insert(make_pair(dist, i));
 	}
 	/*
 	para decidir a qual classe pertence o novo exemplo,
 	basta verificar arg1 classe mais frequente dos K
 	vizinhos mais próximos
 	*/
-	set<pair<double, int> >::iterator it;
+	set<pair<double, int> >::iterator j;
 	
 	/*
 		o contador de Iris-setosa estará no índice 0,
@@ -121,11 +120,11 @@ string classificarAmostra(vector<Flor>& individuos, Flor novo_exemplo, int K)
 	
 	int contK = 0;
 
-	for(it = dist_individuos.begin(); it != dist_individuos.end(); it++)
+	for(j = dist_flores.begin(); j != dist_flores.end(); j++)
 	{
 		if(contK == K) break;
 		
-		string classe = individuos[it->second].getClasse();
+		string classe = flores[j->second].getClasse();
 
 		if(classe == "Iris-setosa")
 			cont_classes[0]++;
@@ -149,10 +148,11 @@ string classificarAmostra(vector<Flor>& individuos, Flor novo_exemplo, int K)
 	return classe_classificacao;
 }
 
+
 int main(int argc, char *argv[])
 {
 
-	vector<Flor> individuos;
+	vector<Flor> flores;
 
 	/*
 		o K é a quantidade de vizinhos que serão
@@ -176,7 +176,7 @@ int main(int argc, char *argv[])
 
 		cin >> arg1 >> arg2 >> arg3 >> arg4 >> classe;
 
-		individuos.push_back(Flor(arg1, arg2, arg3, arg4, classe));
+		flores.push_back(Flor(arg1, arg2, arg3, arg4, classe));
 	}
 
 	int acertos = 0;
@@ -192,7 +192,7 @@ int main(int argc, char *argv[])
 		
 		Flor ind(arg1, arg2, arg3, arg4, classe);
 		
-		string classe_obtida = classificarAmostra(individuos, ind, K);
+		string classe_obtida = classifica(flores, ind, K);
 		
 		cout << "Classe esperada: " << classe << "\n";
 		cout << "Classe obtida: " << classe_obtida << "\n\n";
