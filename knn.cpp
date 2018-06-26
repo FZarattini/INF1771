@@ -1,4 +1,4 @@
-// ImplementaÁ„o do k-NN (k-nearest neighbors algorithm)
+// Implementa√ß√£o do k-NN (k-nearest neighbors algorithm)
 
 #include <iostream>
 #include <vector>
@@ -11,107 +11,111 @@
 
 using namespace std;
 
-class Individuo
+class Flor
 {
 private:
 	string classe;
-	double a, b, c, d;
+	double arg1, arg2, arg3, arg4;
 
 public:
-	Individuo(double a, double b, double c, double d, string classe)
+	//Construtor
+	Flor(double arg1, double arg2, double arg3, double arg4, string classe)
 	{
-		this->a = a;
-		this->b = b;
-		this->c = c;
-		this->d = d;
+		this->arg1 = arg1;
+		this->arg2 = arg2;
+		this->arg3 = arg3;
+		this->arg4 = arg4;
 		this->classe = classe;
 	}
 
+	//Getters
+	double getArg1()
+	{
+		return arg1;
+	}
+
+	double getArg2()
+	{
+		return arg2;
+	}
+
+	double getArg3()
+	{
+		return arg3;
+	}
+
+	double getArg4()
+	{
+		return arg4;
+	}
+	
 	string getClasse()
 	{
 		return classe;
 	}
-
-	double getA()
-	{
-		return a;
-	}
-
-	double getB()
-	{
-		return b;
-	}
-
-	double getC()
-	{
-		return c;
-	}
-
-	double getD()
-	{
-		return d;
-	}
 };
 
-// funÁ„o que retorna a dist‚ncia euclidiana entre 2 indivÌduos
-double obterDistEuclidiana(Individuo ind1, Individuo ind2)
+// fun√ß√£o que retorna a dist√¢ncia euclidiana entre 2 indiv√≠duos
+double distancia(Flor ind1, Flor ind2)
 {
 	/*
-		a dist‚ncia euclidiana È a raiz quadrada da soma das
-		diferenÁas dos valores dos atributos elevado ao quadrado
+		A dist√¢ncia euclidiana √© a raiz quadrada da soma das
+		diferen√ßas dos valores dos atributos elevado ao quadrado
 	*/
 	
-	double soma = pow((ind1.getA() - ind2.getA()), 2) +
-				  pow((ind1.getB() - ind2.getB()), 2) +
-				  pow((ind1.getC() - ind2.getC()), 2) +
-				  pow((ind1.getD() - ind2.getD()), 2);
+	double soma = pow((ind1.getArg1() - ind2.getArg1()), 2) + pow((ind1.getArg2() - ind2.getArg2()), 2) + pow((ind1.getArg3() - ind2.getArg3()), 2) + pow((ind1.getArg4() - ind2.getArg4()), 2);
 	
 	return sqrt(soma);
 }
 
-// essa funÁ„o classifica uma nova amostra
-string classificarAmostra(vector<Individuo>& individuos,
-						  Individuo novo_exemplo, int K)
+// essa fun√ß√£o classifica uma nova amostra
+string classificarAmostra(vector<Flor>& individuos, Flor novo_exemplo, int K)
 {
 	// se o K for par decrementa
-	if(K % 2 == 0)
-	{
-		K--;
-		if(K <= 0)
-			K = 1;
+	//if(K % 2 == 0)
+	//{
+	//	K--;
+	//	if(K <= 0)
+	//		K = 1;
+	//}
+	
+	if(K % 2 == 0 || K < 0){
+		cout << "K deve ser um valor √≠mpar positivo!";
+		return NULL;
 	}
+		
 
-	// obtÈm o tamanho do vetor
+	// obt√©m o tamanho do vetor
 	int tam_vet = individuos.size();
 
 	/*
-		set de pairs da dist‚ncia de cada indivÌduo
+		set de pairs da dist√¢ncia de cada indiv√≠duo
 		do conjunto de treinamento para o novo exemplo
-		cada pair È composto pela dist‚ncia e o Ìndice
-		do indivÌduo no vetor
+		cada pair √© composto pela dist√¢ncia e o √≠ndice
+		do indiv√≠duo no vetor
 	*/
 	set<pair<double, int> > dist_individuos;
 
 	/*
-		calcula-se a dist‚ncia euclidiana do novo exemplo
+		calcula-se a dist√¢ncia euclidiana do novo exemplo
 		para cada amostra do conjunto de treinamento
 	*/
 	for(int i = 0; i < tam_vet; i++)
 	{
-		double dist = obterDistEuclidiana(individuos[i], novo_exemplo);
+		double dist = distancia(individuos[i], novo_exemplo);
 		dist_individuos.insert(make_pair(dist, i));
 	}
 	/*
 	para decidir a qual classe pertence o novo exemplo,
-	basta verificar a classe mais frequente dos K
-	vizinhos mais prÛximos
+	basta verificar arg1 classe mais frequente dos K
+	vizinhos mais pr√≥ximos
 	*/
 	set<pair<double, int> >::iterator it;
 	
 	/*
-		o contador de Iris-setosa estar· no Ìndice 0,
-		o contador de Iris-versicolor estar· no Ìndice 1
-		e o contador de Iris-virginica estar· no Ìndice 2
+		o contador de Iris-setosa estar√° no √≠ndice 0,
+		o contador de Iris-versicolor estar√° no √≠ndice 1
+		e o contador de Iris-virginica estar√° no √≠ndice 2
 	*/
 	vector<int> cont_classes(3);
 	
@@ -148,13 +152,13 @@ string classificarAmostra(vector<Individuo>& individuos,
 int main(int argc, char *argv[])
 {
 
-	vector<Individuo> individuos;
+	vector<Flor> individuos;
 
 	/*
-		o K È a quantidade de vizinhos que ser„o
-		levados em conta para classificaÁ„o de um
-		novo dado, È recomend·vel que seja Ìmpar
-		para que n„o possa haver empate
+		o K √© a quantidade de vizinhos que ser√£o
+		levados em conta para classifica√ß√£o de um
+		novo dado, √© recomend√°vel que seja √≠mpar
+		para que n√£o possa haver empate
 	*/
 	int K = 3;
 	
@@ -168,25 +172,25 @@ int main(int argc, char *argv[])
 	for(int i = 0; i < tam_treinamento; i++)
 	{
 		string classe;
-		double a, b, c, d;
+		double arg1, arg2, arg3, arg4;
 
-		cin >> a >> b >> c >> d >> classe;
+		cin >> arg1 >> arg2 >> arg3 >> arg4 >> classe;
 
-		individuos.push_back(Individuo(a, b, c, d, classe));
+		individuos.push_back(Flor(arg1, arg2, arg3, arg4, classe));
 	}
 
 	int acertos = 0;
 	int tam_testes = 150 - tam_treinamento;
 	
-	// processo de classificaÁ„o
+	// processo de classifica√ß√£o
 	for(int i = 0; i < tam_testes; i++)
 	{
 		string classe;
-		double a, b, c, d;
+		double arg1, arg2, arg3, arg4;
 
-		cin >> a >> b >> c >> d >> classe;
+		cin >> arg1 >> arg2 >> arg3 >> arg4 >> classe;
 		
-		Individuo ind(a, b, c, d, classe);
+		Flor ind(arg1, arg2, arg3, arg4, classe);
 		
 		string classe_obtida = classificarAmostra(individuos, ind, K);
 		
