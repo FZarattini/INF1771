@@ -6,6 +6,7 @@
 #include <set>
 #include <map>
 #include<cstdlib>
+#include <ctime>
 //#include <string>
 //#include <string.h>
 //#include <strings.h>
@@ -162,6 +163,8 @@ int main(int argc, char *argv[])
      if(K % 2 == 1 || K < 0){    	
 
     //o conjunto de treinamento fica guardado para ser consultado
+    clock_t begin = clock();
+    
     for(int i = 0; i < tam_treinamento; i++)
     {
         string classe;
@@ -173,11 +176,17 @@ int main(int argc, char *argv[])
 
         flores.push_back(Flor(arg1, arg2, arg3, arg4, classe));
     }
+    
+    clock_t end = clock();
+    double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+    
+    cout << "Tempo passado para calcular o conjunto de treinamento: " << elapsed_secs << "\n";
 
     int acertos = 0;
     int tam_testes = 150 - tam_treinamento;
 
     // processo de classificação
+    begin = clock();
     for(int i = 0; i < tam_testes; i++)
     {
         string classe;
@@ -195,6 +204,11 @@ int main(int argc, char *argv[])
         if(classe == classe_obtida)
             acertos++;
     }
+    
+	end = clock();
+    elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+    
+    cout << "Tempo passado para calcular o processo de classificacao: " << elapsed_secs << "\n";
 
     cout << acertos << " acertos de um total de " << tam_testes << " testes.\n";
 }else{
