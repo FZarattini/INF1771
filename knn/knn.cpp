@@ -214,7 +214,7 @@ int main(int argc, char *argv[])
 	     
 	cout << "A porcentagem de acertos foi de: " << (acertos/tam_testes)*100 << "%\n";
 }else{
-cout << "K deve ser ímpar positivo!";
+cout << "K deve ser impar positivo!";
 }
 
     return 0;

@@ -4,6 +4,10 @@
 #include <stdlib.h>
 #include <time.h>
 #include <algorithm>
+#include <ctime>
+#include <cstdio>
+#include <string>
+#include <fstream>
 
 using namespace std;
 
@@ -177,7 +181,7 @@ public:
 	}
 
 	void processa(vector<Ponto> & pontos)
-	{
+	{		
 		if(K > qtdPontos)
 			return;
 
@@ -241,10 +245,11 @@ public:
 					}
 				}
 			}
-
+			
+			
 			if(terminou == true || iter >= maxIter)
 			{
-				cout << "Terminou na iteração " << iter << "\n\n";
+				//cout << "Terminou na iteração " << iter << "\n\n";
 				break;
 			}
 
@@ -271,7 +276,7 @@ public:
 				cout << endl;
 			}
 
-			cout << "Cluster atributos: ";
+			cout << "Atributos do Cluster: ";
 
 			for(int j = 0; j < qtdAtributos; j++)
 				cout << clusters[i].getCentroide(j) << " ";
@@ -279,23 +284,98 @@ public:
 			cout << "\n\n";
 		}
 	}
+	
+	void verifica(int K)
+	{
+		   vector<int> contadores;
+		   ifstream inFile;
+		   inFile.open("output.txt");
+		   string dummyLine;
+		   string classe;
+		   char ch;
+		   int maior, total, erros, cluster = 0;
+		   
+		   for(int i = 0;i < 3; i++)
+		   {
+			   contadores.push_back(0);   
+		   }	   
+		   
+		   while(!inFile.eof()){
+		   	   while(cluster < K){
+			   	   while(inFile >> noskipws >> ch)
+			   	   {
+					   if(ch == '\n')
+					   {
+						   if(ch == ' ')
+						   {
+						   	   getline(inFile, dummyLine);
+							   cluster++;
+							   break;   
+						   }
+					   }		 	
+	 	   		       else if(ch == 'C')
+	 	   		       	   getline(inFile, dummyLine);	
+				   	   else if(ch == 'I'){
+	               	   	   for(int i = 0 ; i < 4; i++)
+	               		 	 	 inFile >> noskipws >> ch;
+	               		   getline(inFile, classe);    
+	                   }
+					   else if(ch == 'A')
+					   {
+						   for(int i = 0 ; i < 2; i++)
+						   	   getline(inFile, dummyLine);	    
+					   }
+					   
+					   else if(ch == 'T')
+	 			   	   	   break;
+					   
+					   if(!classe.empty()){
+						   if(classe == "versicolor")
+						   {
+						   		contadores[0]++;
+						   		classe = '\0';
+							   
+						   }
+						   else if(classe == "virginica")
+						   {
+							   contadores[1]++;
+							   classe = '\0';   
+						   }
+						   else if(classe == "setosa")
+						   {
+							   contadores[2]++;
+							   classe = '\0';
+						   }	    	
+					   }	  	
+			   	   }
+			   	   cout << "cluster :" << cluster + 1 << "contadores: " << contadores[0] << "\n" << contadores[1] << "\n" << contadores[2] << "\n";
+			   	   
+				}   
+		   	   //cout << contadores[0] << "\n" << contadores[1] << "\n" << contadores[2] << "\n";
+		   }
+		   
+		   	
+		
+	}
 };
 
 int main(int argc, char *argv[])
 {
 	srand (time(NULL));
-
 	int K, qtdAtributos, qtdPontos, nomeado, maxIter;
-
-	cin >> qtdPontos >> qtdAtributos >> K >> maxIter >> nomeado;
+	
+	freopen("output.txt","w",stdout);
+	
+	K = atoi(argv[1]);
+	cin >> qtdPontos >> qtdAtributos >> maxIter >> nomeado;
 
 	vector<Ponto> pontos;
-	string nomePonto;
+	string nomePonto;    
 
 	for(int i = 0; i < qtdPontos; i++)
 	{
-		vector<double> atributos;
-
+		vector<double> atributos;		
+		
 		for(int j = 0; j < qtdAtributos; j++)
 		{
 			double atributo;
@@ -317,7 +397,25 @@ int main(int argc, char *argv[])
 	}
 
 	KMeans kmeans(K, qtdPontos, qtdAtributos, maxIter);
+
+	clock_t begin = clock();
+
 	kmeans.processa(pontos);
+	
+	clock_t end = clock();
+    
+	double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+    
+    cout << "Tempo passado para o processo de agrupamento: " << elapsed_secs << "\n";
+    
+    begin = clock();
+    cout << "verificando" << "\n";
+    kmeans.verifica(K);
+    
+	end = clock();
+    
+    elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+    cout << "Tempo passado para o processo de verificacao: " << elapsed_secs << "\n";
 
 	return 0;
 }
