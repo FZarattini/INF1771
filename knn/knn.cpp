@@ -151,11 +151,11 @@ int main(int argc, char *argv[])
 {
     vector<Flor> flores;
 
-    //K vizinhos que serão observados para classificar uma nova amostra
+    //K vizinhos que serão observados para classificar uma nova amostra por input do usuario
     int K = atoi(argv[1]);
-
-    //tamanho do conjunto de dados de treinamento
-    int tam_treinamento = 105;
+	
+    //tamanho do conjunto de dados de treinamento por input do usuario
+	int tam_treinamento = atoi(argv[2]);
 
     //cout << "Digite um valor para K!";
     //cout << K;
