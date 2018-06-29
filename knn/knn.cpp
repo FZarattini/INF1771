@@ -211,6 +211,8 @@ int main(int argc, char *argv[])
     cout << "Tempo passado para calcular o processo de classificacao: " << elapsed_secs << "\n";
 
     cout << acertos << " acertos de um total de " << tam_testes << " testes.\n";
+	     
+	cout << "A porcentagem de acertos foi de: " << (acertos/tam_testes)*100 << "%\n";
 }else{
 cout << "K deve ser ímpar positivo!";
 }
