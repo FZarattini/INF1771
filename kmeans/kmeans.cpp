@@ -290,10 +290,11 @@ public:
 		   vector<int> contadores;
 		   ifstream inFile;
 		   inFile.open("output.txt");
+		   freopen("output2.txt","w",stdout);
 		   string dummyLine;
 		   string classe;
 		   char ch;
-		   int maior, total, erros, cluster = 0;
+		   int maior, flag = 0, total, erros, cluster = 0;
 		   
 		   for(int i = 0;i < 3; i++)
 		   {
@@ -303,18 +304,15 @@ public:
 		   while(!inFile.eof()){
 		   	   while(cluster < K){
 			   	   while(inFile >> noskipws >> ch)
-			   	   {
-					   if(ch == '\n')
-					   {
-						   if(ch == ' ')
-						   {
-						   	   getline(inFile, dummyLine);
-							   cluster++;
-							   break;   
-						   }
-					   }		 	
-	 	   		       else if(ch == 'C')
-	 	   		       	   getline(inFile, dummyLine);	
+			   	   {					   		 	
+	 	   		       if(ch == 'C'){
+	 	   		       		if(flag != 0){
+								cluster++;												   
+							}
+							flag = 1;
+						   	getline(inFile, dummyLine);			   
+					   }
+	 	   		       	   	
 				   	   else if(ch == 'I'){
 	               	   	   for(int i = 0 ; i < 4; i++)
 	               		 	 	 inFile >> noskipws >> ch;
@@ -322,12 +320,17 @@ public:
 	                   }
 					   else if(ch == 'A')
 					   {
+					   	   cout << "cluster :" << cluster + 1 << "contadores: " << contadores[0] << "\n" << contadores[1] << "\n" << contadores[2] << "\n";
+								 	  
+						   contadores[0] = 0;
+						   contadores[1] = 0;
+						   contadores[2] = 0;	  	
 						   for(int i = 0 ; i < 2; i++)
 						   	   getline(inFile, dummyLine);	    
 					   }
 					   
 					   else if(ch == 'T')
-	 			   	   	   break;
+	 			   	   	   return;
 					   
 					   if(!classe.empty()){
 						   if(classe == "versicolor")
@@ -348,13 +351,10 @@ public:
 						   }	    	
 					   }	  	
 			   	   }
-			   	   cout << "cluster :" << cluster + 1 << "contadores: " << contadores[0] << "\n" << contadores[1] << "\n" << contadores[2] << "\n";
-			   	   
 				}   
-		   	   //cout << contadores[0] << "\n" << contadores[1] << "\n" << contadores[2] << "\n";
 		   }
 		   
-		   	
+		
 		
 	}
 };
@@ -409,7 +409,6 @@ int main(int argc, char *argv[])
     cout << "Tempo passado para o processo de agrupamento: " << elapsed_secs << "\n";
     
     begin = clock();
-    cout << "verificando" << "\n";
     kmeans.verifica(K);
     
 	end = clock();

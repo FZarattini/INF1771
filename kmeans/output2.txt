@@ -1,0 +1,10 @@
+cluster :1contadores: 2
+36
+0
+cluster :2contadores: 48
+14
+0
+cluster :3contadores: 0
+0
+50
+Tempo passado para o processo de verificacao: 0.007
