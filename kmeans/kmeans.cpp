@@ -294,7 +294,9 @@ public:
 		   string dummyLine;
 		   string classe;
 		   char ch;
-		   int maior, flag = 0, total, erros, cluster = 0;
+		   int total, cluster = 0, flag = 0;
+		   double erro;
+		   cout.precision(2);
 		   
 		   for(int i = 0;i < 3; i++)
 		   {
@@ -320,8 +322,22 @@ public:
 	                   }
 					   else if(ch == 'A')
 					   {
-					   	   cout << "cluster :" << cluster + 1 << "contadores: " << contadores[0] << "\n" << contadores[1] << "\n" << contadores[2] << "\n";
-								 	  
+					   	   //cout << "cluster :" << cluster + 1 << "contadores: " << contadores[0] << "\n" << contadores[1] << "\n" << contadores[2] << "\n";
+						   total = contadores[0] + contadores[1] + contadores[2];
+						      	
+						   if((contadores[0] > contadores[1]) && (contadores[0] + contadores[2]))
+							   erro = contadores[1] + contadores[2];
+						    	 	  
+						   else if((contadores[1] > contadores[0]) && (contadores[1] > contadores[2]))
+							   erro = contadores[0] + contadores[2];
+						   
+						   else
+						   	   erro = contadores[0] + contadores[1];	
+						   
+			               erro = (erro / total) * 100;
+			               cout << "Erro no cluster: " << cluster + 1 << "\n" << erro << "%" << "\n";
+			               
+			               erro = 0;
 						   contadores[0] = 0;
 						   contadores[1] = 0;
 						   contadores[2] = 0;	  	
