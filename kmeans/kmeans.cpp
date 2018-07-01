@@ -289,8 +289,8 @@ public:
 	{
 		   vector<int> contadores;
 		   ifstream inFile;
-		   inFile.open("output.txt");
-		   freopen("output2.txt","w",stdout);
+		   inFile.open("clusters.txt");
+		   freopen("verificacao.txt","w",stdout);
 		   string dummyLine;
 		   string classe;
 		   char ch;
@@ -335,7 +335,7 @@ public:
 						   	   erro = contadores[0] + contadores[1];	
 						   
 			               erro = (erro / total) * 100;
-			               cout << "Erro no cluster: " << cluster + 1 << "\n" << erro << "%" << "\n";
+			               cout << "Porcentagem de pontos incorretos no cluster: " << cluster + 1 << "\n" << erro << "%" << "\n";
 			               
 			               erro = 0;
 						   contadores[0] = 0;
@@ -380,7 +380,7 @@ int main(int argc, char *argv[])
 	srand (time(NULL));
 	int K, qtdAtributos, qtdPontos, nomeado, maxIter;
 	
-	freopen("output.txt","w",stdout);
+	freopen("clusters.txt","w",stdout);
 	
 	K = atoi(argv[1]);
 	cin >> qtdPontos >> qtdAtributos >> maxIter >> nomeado;
