@@ -249,7 +249,7 @@ public:
 			
 			if(terminou == true || iter >= maxIter)
 			{
-				//cout << "Terminou na iteração " << iter << "\n\n";
+				//cout << "Terminou na iteraÃ§Ã£o " << iter << "\n\n";
 				break;
 			}
 
@@ -285,7 +285,7 @@ public:
 		}
 	}
 	
-	void verifica(int K)
+	void verifica(int K, int qtdPontos)
 	{
 		   vector<int> contadores;
 		   ifstream inFile;
@@ -295,7 +295,7 @@ public:
 		   string classe;
 		   char ch;
 		   int total, cluster = 0, flag = 0;
-		   double erro;
+		   double erro, erroTotal = 0.0;
 		   cout.precision(2);
 		   
 		   for(int i = 0;i < 3; i++)
@@ -322,7 +322,6 @@ public:
 	                   }
 					   else if(ch == 'A')
 					   {
-					   	   //cout << "cluster :" << cluster + 1 << "contadores: " << contadores[0] << "\n" << contadores[1] << "\n" << contadores[2] << "\n";
 						   total = contadores[0] + contadores[1] + contadores[2];
 						      	
 						   if((contadores[0] > contadores[1]) && (contadores[0] + contadores[2]))
@@ -334,6 +333,7 @@ public:
 						   else
 						   	   erro = contadores[0] + contadores[1];	
 						   
+			               erroTotal += (erro / qtdPontos) * 100;
 			               erro = (erro / total) * 100;
 			               cout << "Porcentagem de pontos incorretos no cluster: " << cluster + 1 << "\n" << erro << "%" << "\n";
 			               
@@ -345,8 +345,11 @@ public:
 						   	   getline(inFile, dummyLine);	    
 					   }
 					   
-					   else if(ch == 'T')
-	 			   	   	   return;
+					   else if(ch == 'T'){
+						   cout << "Porcentagem total de pontos agrupados incorretamente: " << erroTotal << "%\n";
+						   return;
+					   }
+	 			   	   	   
 					   
 					   if(!classe.empty()){
 						   if(classe == "versicolor")
@@ -425,7 +428,7 @@ int main(int argc, char *argv[])
     cout << "Tempo passado para o processo de agrupamento: " << elapsed_secs << "\n";
     
     begin = clock();
-    kmeans.verifica(K);
+    kmeans.verifica(K, qtdPontos);
     
 	end = clock();
     
