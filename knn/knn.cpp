@@ -1,12 +1,10 @@
-// Implementação do k-NN (k-nearest neighbors algorithm)
-
+#include <math.h>
+#include <map>
+#include <ctime>
 #include <iostream>
 #include <vector>
-#include <math.h>
 #include <set>
-#include <map>
 #include<cstdlib>
-#include <ctime>
 
 using namespace std;
 
@@ -98,12 +96,11 @@ string classifica(vector<Flor>& flores, Flor novo_exemplo, int K)
 	*/
 	set<pair<double, int> >::iterator j;
 	
-	/*
-		o contador de Iris-setosa = índice 0,
-		o contador de Iris-versicolor = índice 1
-		o contador de Iris-virginica = índice 2
-	*/
-	vector<int> cont_classes(3);
+	
+	//votos de Iris-setosa sao guardados no indice 0
+	//votos de Iris-versicolor sao guardados no indice 1
+	//votos de Iris-virginica sao guardados no indice 2
+	vector<int> guarda_votos(3);
 	
 	//for do inicio de dist_flores até o final
 	for(j = dist_flores.begin(); j != dist_flores.end(); j++)
@@ -119,11 +116,11 @@ string classifica(vector<Flor>& flores, Flor novo_exemplo, int K)
 
 		//guarda os votos
 		if(classe == "Iris-setosa")
-			cont_classes[0]++;
+			guarda_votos[0]++;
 		else if(classe == "Iris-versicolor")
-			cont_classes[1]++;
+			guarda_votos[1]++;
 		else
-			cont_classes[2]++;
+			guarda_votos[2]++;
 		
 		//passa pro próximo voto
 		contK++;
@@ -133,9 +130,9 @@ string classifica(vector<Flor>& flores, Flor novo_exemplo, int K)
 	string classificacao_obtida;
 	
 	//verificações para ver qual classe foi obtida
-	if(cont_classes[0] >= cont_classes[1] && cont_classes[0] >= cont_classes[2])
+	if(guarda_votos[0] >= guarda_votos[1] && guarda_votos[0] >= guarda_votos[2])
 		classificacao_obtida = "Iris-setosa";
-	else if(cont_classes[1] >= cont_classes[0] && cont_classes[1] >= cont_classes[2])
+	else if(guarda_votos[1] >= guarda_votos[0] && guarda_votos[1] >= guarda_votos[2])
 		classificacao_obtida = "Iris-versicolor";
 	else
 		classificacao_obtida = "Iris-virginica";
