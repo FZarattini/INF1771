@@ -11,7 +11,7 @@ using namespace std;
 //criando a classe for
 class Flor
 {
-	//variáveis
+	//variaveis
 private:
 	string classe;
 	double arg1, arg2, arg3, arg4; //parametros das flores + tipo
@@ -54,10 +54,10 @@ public:
 	}
 };
 
-// função encarregada de retornar a distância euclidiana entre 2 pontos (indivíduos)
+// função encarregada de retornar a distancia euclidiana entre 2 pontos (individuos)
 double distancia(Flor flor1, Flor flor2)
 {
-	//distância euclidiana
+	//distancia euclidiana
 	
 	double soma = pow((flor1.getArg1() - flor2.getArg1()), 2) + pow((flor1.getArg2() - flor2.getArg2()), 2) + pow((flor1.getArg3() - flor2.getArg3()), 2) + pow((flor1.getArg4() - flor2.getArg4()), 2);
 	
@@ -67,18 +67,17 @@ double distancia(Flor flor1, Flor flor2)
 // classifica nova amostra
 string classifica(vector<Flor>& flores, Flor novo_exemplo, int K)
 {
-	// obtém o tamanho do vetor de Flor passano como parâmetro na função
+	// obtem o tamanho do vetor de Flor passano como parametro na funçao
 	int vetSize = flores.size();
 
 	//contador de votos
 	int contK = 0;
 	
-	/*
-		cria um par composto de:
-		distância e o índice do indivíduo no vetor
-	
-		a distância é a distância de cada indivíduo do conjunto de treinamento para o novo exemplo.
-	*/
+
+	//cria um par composto de:
+	//distância e o índice do indivíduo no vetor
+	//a distancia eh a distancia de cada individuo do conjunto de treinamento para o novo exemplo.
+
 	set<pair<double, int> > dist_flores;
 
 	//for que calcula a distancia euclidiana do novo exemplo pra cada amostra do conjunto de treinamento
@@ -90,10 +89,10 @@ string classifica(vector<Flor>& flores, Flor novo_exemplo, int K)
 		dist_flores.insert(make_pair(dist, i));
 	}
 	
-	/*
-	o novo exemplo será classificado dependendo de quem possuir maioria nos K primeiros votos
-	que estão ordenados do mais próximo para o mais distante
-	*/
+	
+	//o novo exemplo será classificado dependendo de quem possuir maioria nos K primeiros votos
+	//que estão ordenados do mais próximo para o mais distante
+	
 	set<pair<double, int> >::iterator j;
 	
 	
@@ -122,14 +121,14 @@ string classifica(vector<Flor>& flores, Flor novo_exemplo, int K)
 		else
 			guarda_votos[2]++;
 		
-		//passa pro próximo voto
+		//passa pro proximo voto
 		contK++;
 	}
 	
 	//preparamos o return da classe obtida
 	string classificacao_obtida;
 	
-	//verificações para ver qual classe foi obtida
+	//verificacoes para ver qual classe foi obtida
 	if(guarda_votos[0] >= guarda_votos[1] && guarda_votos[0] >= guarda_votos[2])
 		classificacao_obtida = "Iris-setosa";
 	else if(guarda_votos[1] >= guarda_votos[0] && guarda_votos[1] >= guarda_votos[2])
@@ -144,7 +143,7 @@ int main(int argc, char *argv[])
 {
     vector<Flor> flores;
 
-    //K vizinhos que serão observados para classificar uma nova amostra por input do usuario
+    //K vizinhos que serao observados para classificar uma nova amostra por input do usuario
     int K = atoi(argv[1]);
 	
     //tamanho do conjunto de dados de treinamento por input do usuario
@@ -160,7 +159,7 @@ int main(int argc, char *argv[])
         string classe;
         double arg1, arg2, arg3, arg4;
 
-        //lê os parametros no arquivo e armazena eles nas variáveis
+        //le os parametros no arquivo e armazena eles nas variaveis
 
         cin >> arg1 >> arg2 >> arg3 >> arg4 >> classe;
 
@@ -175,7 +174,7 @@ int main(int argc, char *argv[])
     int acertos = 0;
     int tam_testes = 150 - tam_treinamento;
 
-    // processo de classificação
+    // processo de classificacao
     begin = clock();
     for(int i = 0; i < tam_testes; i++)
     {
