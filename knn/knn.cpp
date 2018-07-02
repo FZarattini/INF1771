@@ -8,7 +8,7 @@
 
 using namespace std;
 
-//criando a classe for
+//criando a classe flor
 class Flor
 {
 	//variaveis
@@ -199,6 +199,7 @@ int main(int argc, char *argv[])
     
     cout << "Tempo passado para calcular o processo de classificacao: " << elapsed_secs << "\n";
 
+	cout << "Valores utilizados: K = " << K << "\n" << "Quantidade de Exemplos de Teste = " << tam_treinamento << "\n";
     cout << acertos << " acertos de um total de " << tam_testes << " testes.\n";
 	cout << "A porcentagem de classificacoes corretas foi de: " << (acertos*100/tam_testes) << "%\n";
 }else{
