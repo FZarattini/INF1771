@@ -7,9 +7,6 @@
 #include <map>
 #include<cstdlib>
 #include <ctime>
-//#include <string>
-//#include <string.h>
-//#include <strings.h>
 
 using namespace std;
 
@@ -60,11 +57,11 @@ public:
 };
 
 // função encarregada de retornar a distância euclidiana entre 2 pontos (indivíduos)
-double distancia(Flor ind1, Flor ind2)
+double distancia(Flor flor1, Flor flor2)
 {
 	//distância euclidiana
 	
-	double soma = pow((ind1.getArg1() - ind2.getArg1()), 2) + pow((ind1.getArg2() - ind2.getArg2()), 2) + pow((ind1.getArg3() - ind2.getArg3()), 2) + pow((ind1.getArg4() - ind2.getArg4()), 2);
+	double soma = pow((flor1.getArg1() - flor2.getArg1()), 2) + pow((flor1.getArg2() - flor2.getArg2()), 2) + pow((flor1.getArg3() - flor2.getArg3()), 2) + pow((flor1.getArg4() - flor2.getArg4()), 2);
 	
 	return sqrt(soma);
 }
@@ -79,9 +76,8 @@ string classifica(vector<Flor>& flores, Flor novo_exemplo, int K)
 	int contK = 0;
 	
 	/*
-	
 		cria um par composto de:
-		pela distância e o índice do indivíduo no vetor
+		distância e o índice do indivíduo no vetor
 	
 		a distância é a distância de cada indivíduo do conjunto de treinamento para o novo exemplo.
 	*/
@@ -156,9 +152,6 @@ int main(int argc, char *argv[])
 	
     //tamanho do conjunto de dados de treinamento por input do usuario
 	int tam_treinamento = atoi(argv[2]);
-
-    //cout << "Digite um valor para K!";
-    //cout << K;
 
      if(K % 2 == 1 || K < 0){    	
 
